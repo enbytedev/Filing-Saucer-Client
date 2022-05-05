@@ -1,6 +1,7 @@
 package dev.enbyte.filingsaucerclient;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -23,6 +24,9 @@ public class Client implements ActionListener {
 
     JFrame mainView = new JFrame("Filing Saucer Client");
     JButton uploadButton = new JButton("Select File");
+    JPanel panel = new JPanel(new GridLayout(4, 5));
+    JLabel title = new JLabel("Filing Saucer Client", JLabel.CENTER);
+
     Client() throws IOException {
         // Create registry folder if one does not exist.
         File home = new File(System.getProperty("user.home"));
@@ -37,16 +41,18 @@ public class Client implements ActionListener {
         System.out.println(historyList);
 
         // Setup GUI.
-        mainView.setSize(300, 500);
-        uploadButton.setBounds(0, 0, 100, 20);
+        panel.add(title);
 
+        uploadButton.setBounds(0, 0, 50, 20);
         uploadButton.addActionListener(this);
-
-        mainView.add(uploadButton);
         uploadButton.setFocusable(false);
+        panel.add(uploadButton);
+
+        mainView.add(panel);
         mainView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainView.setLayout(null);
+        mainView.pack();
         mainView.setVisible(true);
+        mainView.setSize(300, 500);
     }
 
     @Override
