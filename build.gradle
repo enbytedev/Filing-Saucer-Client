@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+group 'dev.enbyte'
+version '1.0.0-alpha.1'
+
+repositories {
+    mavenCentral()
+
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore
+    implementation 'org.apache.httpcomponents:httpcore:4.4.1'
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+    implementation 'org.apache.httpcomponents:httpclient:4.5'
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime
+    implementation 'org.apache.httpcomponents:httpmime:4.5.13'
+
+}
+
+test {
+    useJUnitPlatform()
+}
