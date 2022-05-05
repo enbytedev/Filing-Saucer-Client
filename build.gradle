@@ -20,7 +20,8 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpclient:4.5'
     // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime
     implementation 'org.apache.httpcomponents:httpmime:4.5.13'
-
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson/
+    implementation 'com.google.code.gson:gson:2.9.0'
 }
 
 test {
