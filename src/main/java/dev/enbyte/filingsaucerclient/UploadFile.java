@@ -15,6 +15,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,7 +49,6 @@ public class UploadFile {
         String responseString = EntityUtils.toString(responseEntity, StandardCharsets.UTF_8);
         Gson gson = new Gson();
         JsonObject json = gson.fromJson(responseString, JsonObject.class);
-        System.out.println(json.get("message"));
         String toMatch = json.get("message").toString();
 
         // Match string
@@ -56,15 +56,19 @@ public class UploadFile {
         Matcher strMatcher = strPattern.matcher(toMatch);
         if (strMatcher.find())
         {
-            System.out.println(strMatcher.group(1));
+            System.out.println("[INFO] File name retrieved: " + strMatcher.group(1));
         }
         // Match token.
         Pattern tokPattern = Pattern.compile("(?<=\\|)(.*?)(?=\\\")");
         Matcher tokMatcher = tokPattern.matcher(toMatch);
         if (tokMatcher.find())
         {
-            System.out.println(tokMatcher.group(1));
+            System.out.println("[INFO] Deletion token retrieved: " + tokMatcher.group(1));
         }
+        // Create registry entry as file.
+        PrintWriter writer = new PrintWriter(System.getProperty("user.home") + File.separator + "FilingSaucer" + File.separator + tokMatcher.group(1), "UTF-8");
+        writer.println(strMatcher.group(1));
+        writer.close();
 
     }
 

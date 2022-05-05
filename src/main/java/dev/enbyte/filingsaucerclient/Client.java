@@ -20,6 +20,17 @@ public class Client implements ActionListener {
     JFrame mainView = new JFrame();
     JButton uploadButton = new JButton("Select File");
     Client() {
+        // Create registry folder if one does not exist.
+        File home = new File(System.getProperty("user.home"));
+        File FilingSaucerFolder = new File(System.getProperty("user.home") + File.separator + "FilingSaucer");
+        if (!FilingSaucerFolder.exists()){
+            FilingSaucerFolder.mkdirs();
+            System.out.println("[INFO] Created folder FilingSaucer in user home directory.");
+        } else {
+            System.out.println("[INFO] Did not create folder FilingSaucer in user home directory, already exists.");
+        }
+
+        // Setup GUI.
         mainView.setSize(300, 500);
         uploadButton.setBounds(0, 0, 100, 20);
 
@@ -36,11 +47,14 @@ public class Client implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == uploadButton) {
             JFileChooser fileChooser = new JFileChooser();
+            // Open a file picker in user's home folder.
             fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
             int result = fileChooser.showOpenDialog(mainView);
+            // If a file is selected, upload it with UploadFile.
             if (result == JFileChooser.APPROVE_OPTION) {
-                System.out.println("File selected.");
+                System.out.println("[INFO] File selected, starting upload!");
                 File selectedFile = fileChooser.getSelectedFile();
+                // The filename is made a string and passed into UploadFile.
                 String fileString = selectedFile.toString();
                 try {
                     UploadFile.main(fileString);
