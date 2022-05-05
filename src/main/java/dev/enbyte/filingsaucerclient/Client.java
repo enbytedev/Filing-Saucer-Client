@@ -23,9 +23,14 @@ public class Client implements ActionListener {
     }
 
     JFrame mainView = new JFrame("Filing Saucer Client");
-    JButton uploadButton = new JButton("Select File");
-    JPanel panel = new JPanel(new GridLayout(4, 5));
-    JLabel title = new JLabel("Filing Saucer Client", JLabel.CENTER);
+    JButton uploadButton = new JButton("Upload File");
+    JButton refreshButton = new JButton("Refresh");
+    JPanel panel = new JPanel(new GridLayout(3, 1));
+    JPanel panelOpen = new JPanel(new GridLayout(3, 1));
+    JPanel panelDelete = new JPanel(new GridLayout(3, 1));
+    JLabel openLabel = new JLabel("Open File", JLabel.CENTER);
+    JLabel deleteLabel = new JLabel("Delete File", JLabel.CENTER);
+
 
     Client() throws IOException {
         // Create registry folder if one does not exist.
@@ -37,22 +42,48 @@ public class Client implements ActionListener {
         } else {
             System.out.println("[INFO] Did not create folder FilingSaucer in user home directory, already exists.");
         }
-        HistoryList historyList = new HistoryList();
-        System.out.println(historyList);
 
         // Setup GUI.
-        panel.add(title);
-
-        uploadButton.setBounds(0, 0, 50, 20);
         uploadButton.addActionListener(this);
+        refreshButton.addActionListener(this);
         uploadButton.setFocusable(false);
+        refreshButton.setFocusable(false);
         panel.add(uploadButton);
+        panel.add(refreshButton);
+        panelOpen.add(openLabel);
+        panelDelete.add(deleteLabel);
 
+        // Add buttons
+        ReadHistory();
+
+        panel.add(panelOpen);
+        panel.add(panelDelete);
         mainView.add(panel);
         mainView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainView.pack();
         mainView.setVisible(true);
-        mainView.setSize(300, 500);
+        mainView.setSize(700, 500);
+    }
+
+    public void repaint() throws IOException {
+        ReadHistory();
+        mainView.revalidate();
+        mainView.repaint();
+    }
+    public void ReadHistory() throws IOException {
+        HistoryList historyList = new HistoryList();
+        for (int i = 1; i <= historyList.tokens.size(); i++) {
+            JButton openButton = new JButton(historyList.tokens.get(i - 1).toString());
+            openButton.setBackground(Color.GREEN);
+            openButton.setForeground(Color.BLACK);
+            openButton.setHorizontalAlignment(SwingConstants.CENTER);
+            panelOpen.add(openButton);
+            JButton deleteButton = new JButton(historyList.tokens.get(i - 1).toString());
+            deleteButton.setBackground(Color.RED);
+            deleteButton.setForeground(Color.BLACK);
+            deleteButton.setHorizontalAlignment(SwingConstants.CENTER);
+            panelDelete.add(deleteButton);
+        }
     }
 
     @Override
@@ -74,6 +105,9 @@ public class Client implements ActionListener {
                     ioException.printStackTrace();
                 }
             }
+        }
+        if (e.getSource() == refreshButton) {
+            mainView.repaint();
         }
     }
 }

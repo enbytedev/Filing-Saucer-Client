@@ -21,7 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UploadFile {
-
+    Client client = new Client();
     String fileString = new String();
 
     public UploadFile(String fileString) throws IOException {

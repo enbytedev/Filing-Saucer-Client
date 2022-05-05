@@ -10,10 +10,9 @@ import java.util.ArrayList;
 public class HistoryList {
     File folder = new File(System.getProperty("user.home") + File.separator + "FilingSaucer");
     File[] listOfFiles = folder.listFiles();
-
+    ArrayList tokens = new ArrayList<>();
+    ArrayList fileName = new ArrayList<>();
     public HistoryList() throws IOException {
-        ArrayList tokens = new ArrayList<>();
-        ArrayList fileName = new ArrayList<>();
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 tokens.add(listOfFiles[i].getName());
@@ -23,6 +22,8 @@ public class HistoryList {
         }
         System.out.println(tokens);
         System.out.println(fileName);
+
     }
+
 
 }
