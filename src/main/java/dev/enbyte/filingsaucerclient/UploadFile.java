@@ -27,7 +27,7 @@ public class UploadFile {
     public UploadFile(String fileString) throws IOException {
         // Create client and upload
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost uploadFile = new HttpPost("http://000.000.000.000:0000/upload");
+        HttpPost uploadFile = new HttpPost("http://localhost:8080/upload");
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 
         // Attach File

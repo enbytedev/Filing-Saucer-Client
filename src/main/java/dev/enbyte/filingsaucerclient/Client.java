@@ -12,14 +12,18 @@ public class Client implements ActionListener {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Client();
+                try {
+                    new Client();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    JFrame mainView = new JFrame();
+    JFrame mainView = new JFrame("Filing Saucer Client");
     JButton uploadButton = new JButton("Select File");
-    Client() {
+    Client() throws IOException {
         // Create registry folder if one does not exist.
         File home = new File(System.getProperty("user.home"));
         File FilingSaucerFolder = new File(System.getProperty("user.home") + File.separator + "FilingSaucer");
@@ -29,6 +33,8 @@ public class Client implements ActionListener {
         } else {
             System.out.println("[INFO] Did not create folder FilingSaucer in user home directory, already exists.");
         }
+        HistoryList historyList = new HistoryList();
+        System.out.println(historyList);
 
         // Setup GUI.
         mainView.setSize(300, 500);
