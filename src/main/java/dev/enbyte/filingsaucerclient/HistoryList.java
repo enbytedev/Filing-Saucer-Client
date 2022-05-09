@@ -20,9 +20,6 @@ public class HistoryList {
                 fileName.add(content);
             }
         }
-        System.out.println(tokens);
-        System.out.println(fileName);
-
     }
 
 

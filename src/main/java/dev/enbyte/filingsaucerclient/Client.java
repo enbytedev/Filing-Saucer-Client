@@ -24,13 +24,13 @@ public class Client implements ActionListener {
 
     JFrame mainView = new JFrame("Filing Saucer Client");
     JButton uploadButton = new JButton("Upload File");
+    JButton openButton = new JButton("Open File");
+    JButton deleteButton = new JButton("Delete File");
     JButton refreshButton = new JButton("Refresh");
-    JPanel panel = new JPanel(new GridLayout(3, 1));
-    JPanel panelOpen = new JPanel(new GridLayout(3, 1));
-    JPanel panelDelete = new JPanel(new GridLayout(3, 1));
-    JLabel openLabel = new JLabel("Open File", JLabel.CENTER);
-    JLabel deleteLabel = new JLabel("Delete File", JLabel.CENTER);
-
+    JPanel panel = new JPanel(new GridLayout(8, 3));
+    JPanel panelNames = new JPanel(new GridLayout(1, 4));
+    JLabel historyLabel = new JLabel("History", JLabel.CENTER);
+    JTextArea fileNames = new JTextArea();
 
     Client() throws IOException {
         // Create registry folder if one does not exist.
@@ -49,15 +49,12 @@ public class Client implements ActionListener {
         uploadButton.setFocusable(false);
         refreshButton.setFocusable(false);
         panel.add(uploadButton);
+        panel.add(openButton);
+        panel.add(deleteButton);
         panel.add(refreshButton);
-        panelOpen.add(openLabel);
-        panelDelete.add(deleteLabel);
 
         // Add buttons
         ReadHistory();
-
-        panel.add(panelOpen);
-        panel.add(panelDelete);
         mainView.add(panel);
         mainView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainView.pack();
@@ -65,24 +62,13 @@ public class Client implements ActionListener {
         mainView.setSize(700, 500);
     }
 
-    public void repaint() throws IOException {
-        ReadHistory();
-        mainView.revalidate();
-        mainView.repaint();
-    }
     public void ReadHistory() throws IOException {
         HistoryList historyList = new HistoryList();
         for (int i = 1; i <= historyList.tokens.size(); i++) {
-            JButton openButton = new JButton(historyList.tokens.get(i - 1).toString());
-            openButton.setBackground(Color.GREEN);
-            openButton.setForeground(Color.BLACK);
-            openButton.setHorizontalAlignment(SwingConstants.CENTER);
-            panelOpen.add(openButton);
-            JButton deleteButton = new JButton(historyList.tokens.get(i - 1).toString());
-            deleteButton.setBackground(Color.RED);
-            deleteButton.setForeground(Color.BLACK);
-            deleteButton.setHorizontalAlignment(SwingConstants.CENTER);
-            panelDelete.add(deleteButton);
+            JTextArea fileNames = new JTextArea(historyList.fileName.get(i - 1) + "Token: " + historyList.tokens.get(i - 1));
+            fileNames.setLineWrap(true);
+            fileNames.setEditable(false);
+            panel.add(fileNames);
         }
     }
 
@@ -105,9 +91,6 @@ public class Client implements ActionListener {
                     ioException.printStackTrace();
                 }
             }
-        }
-        if (e.getSource() == refreshButton) {
-            mainView.repaint();
         }
     }
 }
