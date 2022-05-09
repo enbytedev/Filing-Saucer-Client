@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class Client implements ActionListener {
 
@@ -28,24 +31,19 @@ public class Client implements ActionListener {
     JButton deleteButton = new JButton("Delete File");
     JButton refreshButton = new JButton("Refresh");
     JPanel panel = new JPanel(new GridLayout(8, 3));
-    JPanel panelNames = new JPanel(new GridLayout(1, 4));
-    JLabel historyLabel = new JLabel("History", JLabel.CENTER);
-    JTextArea fileNames = new JTextArea();
 
     Client() throws IOException {
-        // Create registry folder if one does not exist.
-        File home = new File(System.getProperty("user.home"));
-        File FilingSaucerFolder = new File(System.getProperty("user.home") + File.separator + "FilingSaucer");
-        if (!FilingSaucerFolder.exists()){
-            FilingSaucerFolder.mkdirs();
-            System.out.println("[INFO] Created folder FilingSaucer in user home directory.");
-        } else {
-            System.out.println("[INFO] Did not create folder FilingSaucer in user home directory, already exists.");
-        }
+        // Setup folders for config and registry.
+        FilesystemSetup fss = new FilesystemSetup();
+        fss.homeSetup();
+        fss.registrySetup();
+        fss.fileSetup();
 
         // Setup GUI.
         uploadButton.addActionListener(this);
         refreshButton.addActionListener(this);
+        openButton.addActionListener(this);
+        deleteButton.addActionListener(this);
         uploadButton.setFocusable(false);
         refreshButton.setFocusable(false);
         panel.add(uploadButton);
@@ -72,6 +70,13 @@ public class Client implements ActionListener {
         }
     }
 
+    public static String getAddress() throws IOException {
+        File addressConfig = new File(System.getProperty("user.home") + File.separator + "FilingSaucer" + File.separator + "addressConfig.txt");
+        String addr = Files.readString(Path.of(addressConfig.getPath()), StandardCharsets.UTF_8);
+        System.out.println(addr);
+        return addr;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == uploadButton) {
@@ -90,6 +95,22 @@ public class Client implements ActionListener {
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
+            }
+        }
+        if (e.getSource() == openButton) {
+            ButtonFunctions bf = new ButtonFunctions();
+            try {
+                bf.OpenButton();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+        if (e.getSource() == deleteButton) {
+            ButtonFunctions bf = new ButtonFunctions();
+            try {
+                bf.DeleteButton();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
             }
         }
     }

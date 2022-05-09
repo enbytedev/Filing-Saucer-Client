@@ -25,9 +25,10 @@ public class UploadFile {
     String fileString = new String();
 
     public UploadFile(String fileString) throws IOException {
+        try {
         // Create client and upload
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost uploadFile = new HttpPost("http://localhost:8080/upload");
+        HttpPost uploadFile = new HttpPost(Client.getAddress() + "upload");
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 
         // Attach File
@@ -66,10 +67,12 @@ public class UploadFile {
             System.out.println("[INFO] Deletion token retrieved: " + tokMatcher.group(1));
         }
         // Create registry entry as file.
-        PrintWriter writer = new PrintWriter(System.getProperty("user.home") + File.separator + "FilingSaucer" + File.separator + tokMatcher.group(1), "UTF-8");
+        PrintWriter writer = new PrintWriter(System.getProperty("user.home") + File.separator + "FilingSaucer" + File.separator + ".registry" + File.separator + tokMatcher.group(1), "UTF-8");
         writer.println(strMatcher.group(1));
         writer.close();
-
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
     }
 
     public static void main(String fileString) throws IOException {

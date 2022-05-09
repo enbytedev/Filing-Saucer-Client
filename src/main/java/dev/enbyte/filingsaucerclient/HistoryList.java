@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class HistoryList {
-    File folder = new File(System.getProperty("user.home") + File.separator + "FilingSaucer");
+    File folder = new File(System.getProperty("user.home") + File.separator + "FilingSaucer" + File.separator + ".registry");
     File[] listOfFiles = folder.listFiles();
     ArrayList tokens = new ArrayList<>();
     ArrayList fileName = new ArrayList<>();
