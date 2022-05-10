@@ -29,7 +29,7 @@ public class Client implements ActionListener {
     JButton uploadButton = new JButton("Upload File");
     JButton openButton = new JButton("Open File");
     JButton deleteButton = new JButton("Delete File");
-    JButton refreshButton = new JButton("Refresh");
+    JButton refreshButton = new JButton("Refreshing is a WIP, History Updates on Client Restart");
     JPanel panel = new JPanel(new GridLayout(8, 3));
 
     Client() throws IOException {
@@ -73,7 +73,6 @@ public class Client implements ActionListener {
     public static String getAddress() throws IOException {
         File addressConfig = new File(System.getProperty("user.home") + File.separator + "FilingSaucer" + File.separator + "addressConfig.txt");
         String addr = Files.readString(Path.of(addressConfig.getPath()), StandardCharsets.UTF_8);
-        System.out.println(addr);
         return addr;
     }
 

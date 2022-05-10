@@ -12,6 +12,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,8 +22,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UploadFile {
-    Client client = new Client();
-    String fileString = new String();
 
     public UploadFile(String fileString) throws IOException {
         try {
@@ -71,7 +70,14 @@ public class UploadFile {
         writer.println(strMatcher.group(1));
         writer.close();
         } catch (Exception e) {
-            System.out.println("Error");
+            JOptionPane.showMessageDialog(new JFrame(), """
+                    Something went wrong!
+                    
+                    Please make sure you've specified an address for Filing Saucer's server instance
+                    in the client configuration, and that it is online!
+                    
+                    Also verify that the provided address is correctly formatted, e.x.:
+                    http://000.000.000.000:8080/ NOT: http://000.000.000.000:8080""", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
 
