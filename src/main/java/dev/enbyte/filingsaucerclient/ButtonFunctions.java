@@ -10,23 +10,25 @@ import java.net.URL;
 
 public class ButtonFunctions {
 
-    public boolean OpenButton() throws IOException {
+    GUI gui = new GUI();
+
+    public void OpenButton() throws IOException {
         String out = JOptionPane.showInputDialog("""
                 Specify file to copy link by name.
 
                 Note: this generates a URL and copies it to your clipboard.
                 The link will not open if file does not exist.""");
         String url = Client.getAddress() + "files/" + out;
-        if (!out.equals("")) {
+        if (out != null && !out.equals("")) {
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(url), null);
             JOptionPane.showMessageDialog(new JFrame(), "The link has been copied to your clipboard!\n Note: The URL will not work unless the file input is valid!", "Success!", JOptionPane.ERROR_MESSAGE);
         }
-        return true;
     }
-    public boolean DeleteButton() throws IOException {
+
+    public void DeleteButton() throws IOException {
         try {
         String out = JOptionPane.showInputDialog("Specify file to delete by token.");
-            if (!out.equals("")) {
+            if (out != null && !out.equals("")) {
                 URL url = new URL(Client.getAddress() + "delete/" + out);
                 InputStream is = url.openStream();
                 is.close();
@@ -45,7 +47,25 @@ public class ButtonFunctions {
                     http://000.000.000.000:8080/ NOT: http://000.000.000.000:8080""", "Error!", JOptionPane.ERROR_MESSAGE);
 
         }
-        return true;
+    }
+
+    public void UploadButton() {
+        JFileChooser fileChooser = new JFileChooser();
+        // Open a file picker in user's home folder.
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        int result = fileChooser.showOpenDialog(gui.mainView);
+        // If a file is selected, upload it with UploadFile.
+        if (result == JFileChooser.APPROVE_OPTION) {
+            System.out.println("[INFO] File selected, starting upload!");
+            File selectedFile = fileChooser.getSelectedFile();
+            // The filename is made a string and passed into UploadFile.
+            String fileString = selectedFile.toString();
+            try {
+                UploadFile.main(fileString);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
     }
 
 }
