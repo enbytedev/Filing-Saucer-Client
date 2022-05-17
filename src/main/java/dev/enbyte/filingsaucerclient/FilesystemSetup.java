@@ -5,6 +5,11 @@ import java.io.IOException;
 
 public class FilesystemSetup {
 
+    public void fullSetup() throws IOException {
+        homeSetup();
+        registrySetup();
+        fileSetup();
+    }
     public void homeSetup() {
         // Create application folder if one does not exist.
         File FilingSaucerFolder = new File(System.getProperty("user.home") + File.separator + "FilingSaucer");

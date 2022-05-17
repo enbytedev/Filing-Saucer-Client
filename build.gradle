@@ -27,3 +27,14 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+task fatJar(type: Jar) { duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar',
+                'Implementation-Version': version,
+                'Main-Class': 'dev.enbyte.filingsaucerclient.Client'
+    }
+    baseName = project.name + '-all'
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
