@@ -13,6 +13,8 @@ import org.apache.http.util.EntityUtils;
 
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -59,12 +61,16 @@ public class UploadFile {
                 if (strMatcher.find()) {
                     System.out.println("[INFO] File name retrieved: " + strMatcher.group(1));
                 }
-                // Match token.
+                // Match token
                 Pattern tokPattern = Pattern.compile("(?<=\\|)(.*?)(?=\\\")");
                 tokMatcher = tokPattern.matcher(toMatch);
                 if (tokMatcher.find()) {
                     System.out.println("[INFO] Deletion token retrieved: " + tokMatcher.group(1));
                 }
+                // Copy link to clipboard
+                String url = Client.getAddress() + "view/" + strMatcher.group(1);
+                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(url), null);
+                JOptionPane.showMessageDialog(new JFrame(), "Upload Success! The link has been copied to your clipboard!", "Success!", JOptionPane.INFORMATION_MESSAGE);
             }
             // Create registry entry as file.
             try (PrintWriter writer = new PrintWriter(System.getProperty("user.home") + File.separator + "FilingSaucer" + File.separator + ".registry" + File.separator + tokMatcher.group(1), StandardCharsets.UTF_8)) {

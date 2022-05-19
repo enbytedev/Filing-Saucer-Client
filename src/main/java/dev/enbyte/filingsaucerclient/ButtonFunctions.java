@@ -18,10 +18,10 @@ public class ButtonFunctions {
 
                 Note: this generates a URL and copies it to your clipboard.
                 The link will not open if file does not exist.""");
-        String url = Client.getAddress() + "files/" + out;
+        String url = Client.getAddress() + "view/" + out;
         if (out != null && !out.equals("")) {
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(url), null);
-            JOptionPane.showMessageDialog(new JFrame(), "The link has been copied to your clipboard!\n Note: The URL will not work unless the file input is valid!", "Success!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), "The link has been copied to your clipboard!\n Note: The URL will not work unless the file input is valid!", "Success!", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -34,7 +34,7 @@ public class ButtonFunctions {
                 is.close();
                 File regEntry = new File(System.getProperty("user.home") + File.separator + "FilingSaucer" + File.separator + ".registry" + File.separator + out);
                 regEntry.delete();
-                JOptionPane.showMessageDialog(new JFrame(), "The specified file has been sent a request to be deleted!\n Note: This does not ensure deletion! Please verify proper removal on your own time!", "Success!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(new JFrame(), "The specified file has been sent a request to be deleted!\n Note: This does not ensure deletion! Please verify proper removal on your own time!", "Success!", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(new JFrame(), """

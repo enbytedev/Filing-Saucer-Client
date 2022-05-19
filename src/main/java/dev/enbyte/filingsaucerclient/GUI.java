@@ -89,7 +89,6 @@ public class GUI implements ActionListener {
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-            System.out.println("History opened.");
         }
     }
 }
