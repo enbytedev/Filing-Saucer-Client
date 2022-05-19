@@ -36,7 +36,18 @@ public class Client {
     public static String getAddress() throws IOException {
         File addressConfig = new File(System.getProperty("user.home") + File.separator + "FilingSaucer" + File.separator + "addressConfig.txt");
         String addr = Files.readString(Path.of(addressConfig.getPath()), StandardCharsets.UTF_8);
-        return addr;
+        if (addr != "") {
+            if (!addr.matches("/^(.*)\\/$/g")) {
+                return addr;
+            } else {
+                // TODO
+                //JOptionPane.showMessageDialog(new JFrame(), "Potential issue!\nPlease include a forward slash after your URL in HOME/FilingSaucer/addressConfig.txt!", "Error!", JOptionPane.INFORMATION_MESSAGE);
+                return addr;
+            }
+        } else {
+            JOptionPane.showMessageDialog(new JFrame(), "Potential issue!\nPlease make sure your URL is in HOME/FilingSaucer/addressConfig.txt!", "Error!", JOptionPane.INFORMATION_MESSAGE);
+            return addr;
+        }
     }
 
 }
